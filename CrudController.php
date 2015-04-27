@@ -5,7 +5,6 @@
  */
 class CrudController extends AdminController
 {
-
     /**
      * @var string $value
      */
@@ -26,10 +25,10 @@ class CrudController extends AdminController
      */
     public function __construct()
     {
-        if(isset($_GET['var1'])) {
+        if (isset($_GET['var1'])) {
             $this->value = $_GET['var1'];
 
-            if(isset($_GET['var2'])) {
+            if (isset($_GET['var2'])) {
                 $this->var2 = $_GET['var2'];
 
                 if (isset($_GET['var3'])) {
@@ -38,7 +37,7 @@ class CrudController extends AdminController
             }
         }
 
-        switch($this->value) {
+        switch ($this->value) {
             case 'cache':
                 $endResult = $this->deleteCache('cache/');
 
@@ -58,7 +57,7 @@ class CrudController extends AdminController
             case 'linkhook':
                 $endResult = $this->linkHook($this->var2, $this->var3);
 
-                switch($endResult) {
+                switch ($endResult) {
                     case 1:
                         echo "No such module in data base.\n";
                         break;
@@ -95,15 +94,14 @@ class CrudController extends AdminController
      */
     public function deleteCache($path)
     {
-        foreach(glob("{$path}/*") as $file)
-        {
-            if(is_dir($file)) {
+        foreach (glob("{$path}/*") as $file) {
+            if (is_dir($file)) {
                 $this->deleteCache($file);
-            }
-            else {
+            } else {
                 unlink($file);
             }
         }
+
         return true;
     }
 
@@ -116,21 +114,18 @@ class CrudController extends AdminController
     {
         $sql = "SELECT `title` FROM ps_hook WHERE `name` = '$name'";
 
-        $myString1 = Db::getInstance()->executeS($sql);
+        $result = Db::getInstance()->executeS($sql);
 
-        if($myString1[0]['title'] == $name) {
-
+        if ($result[0]['title'] == $name) {
             echo "This hook already axist.\n";
+
             return;
-        }
-        else {
-            $myString =
-                Db::getInstance()
-                  ->insert('hook', [
-                      'name' => $name,
-                      'title' => $name,
-                      'description' => 'This is a custom hook!',
-                  ]);
+        } else {
+            Db::getInstance()->insert('hook', [
+                'name'        => $name,
+                'title'       => $name,
+                'description' => 'This is a custom hook!',
+            ]);
         }
     }
 
@@ -141,13 +136,16 @@ class CrudController extends AdminController
      */
     public function changeDomain($newDomain)
     {
-        $sql = "UPDATE ps_shop SET name = '$newDomain' WHERE id_shop = '1'";
+        $sql = "UPDATE `ps_shop` SET name = '$newDomain' WHERE id_shop = '1'";
         Db::getInstance()->execute($sql);
-        $sql = "UPDATE  ps_shop_url SET domain = '$newDomain' WHERE id_shop = '1'";
+
+        $sql = "UPDATE `ps_shop_url` SET domain = '$newDomain' WHERE id_shop = '1'";
         Db::getInstance()->execute($sql);
-        $sql = "UPDATE  ps_shop_url SET domain_ssl = '$newDomain' WHERE id_shop = '1'";
+
+        $sql = "UPDATE `ps_shop_url` SET domain_ssl = '$newDomain' WHERE id_shop = '1'";
         Db::getInstance()->execute($sql);
-        $sql = "UPDATE ps_configuration SET value = '$newDomain' WHERE name IN ('PS_SHOP_DOMAIN', 'PS_SHOP_DOMAIN_SSL', 'PS_SHOP_NAME')";
+
+        $sql = "UPDATE `ps_configuration` SET value = '$newDomain' WHERE name IN ('PS_SHOP_DOMAIN', 'PS_SHOP_DOMAIN_SSL', 'PS_SHOP_NAME')";
         Db::getInstance()->execute($sql);
     }
 
@@ -163,26 +161,29 @@ class CrudController extends AdminController
     {
         $sql = "SELECT `id_module` FROM ps_module WHERE `name` = '$module'";
         $mod = Db::getInstance()->executeS($sql);
-        if($mod[0]['id_module'] == "")
+        if ($mod[0]['id_module'] == "") {
             return 1;
+        }
 
-        $sql = "SELECT `id_hook` FROM ps_hook WHERE `name` = '$hookName'";
+        $sql  = "SELECT `id_hook` FROM ps_hook WHERE `name` = '$hookName'";
         $kooh = Db::getInstance()->executeS($sql);
-        if($kooh[0]['id_hook'] == "")
+        if ($kooh[0]['id_hook'] == "") {
             return 2;
+        }
 
         $myMode = $mod[0]['id_module'];
         $myHook = $kooh[0]['id_hook'];
 
-        $sql = "SELECT * FROM ps_hook_module WHERE `id_module` = '$myMode' AND  `id_hook` = '$myHook'";
+        $sql        = "SELECT * FROM ps_hook_module WHERE `id_module` = '$myMode' AND  `id_hook` = '$myHook'";
         $validation = Db::getInstance()->executeS($sql);
 
-        if($validation[0]['id_module'] != "" && $validation[0]['id_hook'] != "") {
+        if ($validation[0]['id_module'] != "" && $validation[0]['id_hook'] != "") {
             return 3;
         }
 
         $sql = "INSERT INTO ps_hook_module VALUES ('$myMode', 1, '$myHook', 1)";
         Db::getInstance()->execute($sql);
+
         return 4;
     }
 }

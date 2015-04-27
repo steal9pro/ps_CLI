@@ -142,16 +142,13 @@ class CrudController extends AdminController
         $myMode = $mod[0]['id_module'];
         $myHook = $kooh[0]['id_hook'];
 
-        var_dump($myHook);
-        var_dump($myMode);
-
         $sql = "SELECT * FROM ps_hook_module WHERE `id_module` = '$myMode' AND  `id_hook` = '$myHook'";
         $validation = Db::getInstance()->executeS($sql);
+
         if($validation[0]['id_module'] != "" && $validation[0]['id_hook'] != "") {
             return 3;
         }
-//        echo $myMode;
-//        echo $myHook;
+
         $sql = "INSERT INTO ps_hook_module VALUES ('$myMode', 1, '$myHook', 1)";
         Db::getInstance()->execute($sql);
         return 4;

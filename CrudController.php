@@ -11,13 +11,18 @@ class CrudController extends AdminController
 
     public function __construct()
     {
-        $this->value = $_GET['var1'];
-        if(isset($_GET['var2'])) {
-            $this->var2 = $_GET['var2'];
-            if (isset($_GET['var3'])) {
-                $this->var3 = $_GET['var3'];
+        if(isset($_GET['var1'])) {
+            $this->value = $_GET['var1'];
+
+            if(isset($_GET['var2'])) {
+                $this->var2 = $_GET['var2'];
+
+                if (isset($_GET['var3'])) {
+                    $this->var3 = $_GET['var3'];
+                }
             }
         }
+
 
         switch($this->value) {
             case 'cache':
@@ -62,7 +67,7 @@ class CrudController extends AdminController
                 echo "linkhook [modulename] [hookname]      - add hook to site\n";
                 break;
             default:
-                echo "this is default value\n";
+                echo "You should type some commands, for example \"php console.php ?\" for full information \n";
         }
     }
 

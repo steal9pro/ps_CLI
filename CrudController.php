@@ -25,14 +25,14 @@ class CrudController extends AdminController
      */
     public function __construct()
     {
-        if (isset($_GET['var1'])) {
-            $this->value = $_GET['var1'];
+        if (isset($_GET['command'])) {
+            $this->value = $_GET['command'];
 
-            if (isset($_GET['var2'])) {
-                $this->var2 = $_GET['var2'];
+            if (isset($_GET['firstAttribute'])) {
+                $this->var2 = $_GET['firstAttribute'];
 
-                if (isset($_GET['var3'])) {
-                    $this->var3 = $_GET['var3'];
+                if (isset($_GET['secondAttribute'])) {
+                    $this->var3 = $_GET['secondAttribute'];
                 }
             }
         }
@@ -166,13 +166,13 @@ class CrudController extends AdminController
         }
 
         $sql  = "SELECT `id_hook` FROM ps_hook WHERE `name` = '$hookName'";
-        $kooh = Db::getInstance()->executeS($sql);
-        if ($kooh[0]['id_hook'] == "") {
+        $hook = Db::getInstance()->executeS($sql);
+        if ($hook[0]['id_hook'] == "") {
             return 2;
         }
 
         $myMode = $mod[0]['id_module'];
-        $myHook = $kooh[0]['id_hook'];
+        $myHook = $hook[0]['id_hook'];
 
         $sql        = "SELECT * FROM ps_hook_module WHERE `id_module` = '$myMode' AND  `id_hook` = '$myHook'";
         $validation = Db::getInstance()->executeS($sql);

@@ -23,7 +23,6 @@ class CrudController extends AdminController
             }
         }
 
-
         switch($this->value) {
             case 'cache':
                 $endResult = $this->deleteCache('cache/');
@@ -42,22 +41,21 @@ class CrudController extends AdminController
             case 'linkhook':
                 $endResult = $this->linkHook($this->var2, $this->var3);
 
-                if($endResult == 1) {
-                    echo "No such module in data base.\n";
+                switch($endResult) {
+                    case 1:
+                        echo "No such module in data base.\n";
+                        break;
+                    case 2:
+                        echo "No such hook in data base.\n";
+                        break;
+                    case 3:
+                        echo "Such hook with module already axist.\n";
+                        break;
+                    case 4:
+                        echo "You link was attached to this hook.\n";
+                        break;
                 }
 
-                if($endResult == 2) {
-                    echo "No such hook in data base.\n";
-                }
-
-                if($endResult == 3) {
-                    echo "Such hook with module already axist.\n";
-                    break;
-                }
-                if($endResult == 4) {
-                    echo "You link was attached to this hook.\n";
-                    break;
-                }
                 break;
             case '?':
                 echo "---------------------- Commands ------------------------\n";

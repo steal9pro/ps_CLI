@@ -5,10 +5,25 @@
  */
 class CrudController extends AdminController
 {
+
+    /**
+     * @var string $value
+     */
     private $value;
+
+    /**
+     * @var string $var2
+     */
     private $var2;
+
+    /**
+     * @var string $var3
+     */
     private $var3;
 
+    /**
+     * Construct
+     */
     public function __construct()
     {
         if(isset($_GET['var1'])) {
@@ -26,11 +41,13 @@ class CrudController extends AdminController
         switch($this->value) {
             case 'cache':
                 $endResult = $this->deleteCache('cache/');
+
                 if ($endResult) {
                     echo "Delete was success! All cache was clean.\n";
                 } else {
                     echo "Something go wrong, maybe you don`t have access for cache folder\n";
                 }
+
                 break;
             case 'addhook':
                 $this->createNewHook($this->var2);
@@ -70,6 +87,8 @@ class CrudController extends AdminController
     }
 
     /**
+     * Delete cache
+     *
      * @param $path string
      *
      * @return bool
@@ -89,6 +108,8 @@ class CrudController extends AdminController
     }
 
     /**
+     * Create new hook
+     *
      * @param $name string
      */
     public function createNewHook($name)
@@ -113,6 +134,11 @@ class CrudController extends AdminController
         }
     }
 
+    /**
+     * Change domain
+     *
+     * @param $newDomain
+     */
     public function changeDomain($newDomain)
     {
         $sql = "UPDATE ps_shop SET name = '$newDomain' WHERE id_shop = '1'";
@@ -125,6 +151,14 @@ class CrudController extends AdminController
         Db::getInstance()->execute($sql);
     }
 
+    /**
+     * Link hook with module
+     *
+     * @param $module
+     * @param $hookName
+     *
+     * @return int
+     */
     public function linkHook($module, $hookName)
     {
         $sql = "SELECT `id_module` FROM ps_module WHERE `name` = '$module'";

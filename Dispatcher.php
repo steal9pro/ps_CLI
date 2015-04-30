@@ -6,17 +6,17 @@
 class Dispatcher extends DispatcherCore
 {
     /**
-     * @param null $id_shop
+     * Dispatch
      *
-     * @return mixed
+     * @throws PrestaShopException
      */
-    public function getController($id_shop = null)
+    public function dispatch()
     {
         $isCLI = (php_sapi_name() == 'cli');
         if ($isCLI) {
             $this->controller = "Crud";
         }
 
-        parent::getController($id_shop = null);
+        parent::dispatch();
     }
 }

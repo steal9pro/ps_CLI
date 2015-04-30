@@ -24,3 +24,4 @@ mv console.php Your-Project/
 ```
 php console.php ?
 ```
+* Dont forget to delete `class_index.php` file in `You-Project/cache`

@@ -6,19 +6,19 @@
 class CrudController extends AdminController
 {
     /**
-     * @var string $value
+     * @var string $сommand
      */
-    private $value;
+    private $command;
 
     /**
-     * @var string $var2
+     * @var string $firstAttribute
      */
-    private $var2;
+    private $firstAttribute;
 
     /**
-     * @var string $var3
+     * @var string $secondAttribute
      */
-    private $var3;
+    private $secondAttribute;
 
     /**
      * Construct
@@ -26,18 +26,18 @@ class CrudController extends AdminController
     public function __construct()
     {
         if (isset($_GET['command'])) {
-            $this->value = $_GET['command'];
+            $this->command = $_GET['command'];
 
             if (isset($_GET['firstAttribute'])) {
-                $this->var2 = $_GET['firstAttribute'];
+                $this->firstAttribute = $_GET['firstAttribute'];
 
                 if (isset($_GET['secondAttribute'])) {
-                    $this->var3 = $_GET['secondAttribute'];
+                    $this->secondAttribute = $_GET['secondAttribute'];
                 }
             }
         }
 
-        switch ($this->value) {
+        switch ($this->command) {
             case 'cache':
                 $endResult = $this->deleteCache('cache/');
 
@@ -49,13 +49,13 @@ class CrudController extends AdminController
 
                 break;
             case 'addhook':
-                $this->createNewHook($this->var2);
+                $this->createNewHook($this->firstAttribute);
                 break;
             case 'domain':
-                $this->changeDomain($this->var2);
+                $this->changeDomain($this->firstAttribute);
                 break;
             case 'linkhook':
-                $endResult = $this->linkHook($this->var2, $this->var3);
+                $endResult = $this->linkHook($this->firstAttribute, $this->secondAttribute);
 
                 switch ($endResult) {
                     case 1:

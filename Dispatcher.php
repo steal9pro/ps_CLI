@@ -12,9 +12,10 @@ class Dispatcher extends DispatcherCore
      */
     public function getController($id_shop = null)
     {
-        $isCLI = ( php_sapi_name() == 'cli' );
-        if($isCLI)
+        $isCLI = (php_sapi_name() == 'cli');
+        if ($isCLI) {
             $this->controller = "Crud";
+        }
 
         parent::getController($id_shop = null);
     }

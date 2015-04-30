@@ -1,21 +1,26 @@
-# ps_CLI
-Command for prestashop, which can clean the cache, add hook, change domain and attaching modules on hooks.
-## INSTALLATION
+# Prestashop CLI
+A command-line interface for prestashop CMS
 
-* Download latest version of console command from git
+Command for prestashop, which can clean the cache, add hook, change domain and attaching modules on hooks.
+
+## Installation
+* Download latest version from git
 ```
-    git clone https://github.com/Myrkotyn/ps_CLI.git
+git clone https://github.com/Myrkotyn/ps_CLI.git
 ```
-* Move Dispatcher.php to folder with overriding classes
+* Move `Dispatcher.php` to folder with overriding classes
 ```
-    mv Dispatcher.php override/classes/
+mv Dispatcher.php Your-Project/override/classes/
 ```
-* Move CrudController.php to folder with overriding controllers of admin
+* Move `CrudController.php` to folder with overriding controllers of admin
 ```
-    mv CrudController.php override/controllers/admin/
+mv CrudController.php Your-Project/override/controllers/admin/
 ```
-* Stay console.php at root of the project
-* Then you can use the command :)
+* Move `console.php` to the root of the project
 ```
-"php console.php ?" - all information
+mv console.php Your-Project/
+```
+* Then you can use the command from terminal
+```
+php console.php ?
 ```

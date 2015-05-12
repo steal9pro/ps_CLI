@@ -25,14 +25,18 @@ class CrudController extends AdminController
      */
     public function __construct()
     {
-        if (isset($_GET['command'])) {
-            $this->command = $_GET['command'];
+        $arguments = Tools::getValue('cli_argv', false);
 
-            if (isset($_GET['firstAttribute'])) {
-                $this->firstAttribute = $_GET['firstAttribute'];
+        if (is_array($arguments)) {
+            if (isset($arguments[1])) {
+                $this->command = $arguments[1];
 
-                if (isset($_GET['secondAttribute'])) {
-                    $this->secondAttribute = $_GET['secondAttribute'];
+                if (isset($arguments[2])) {
+                    $this->firstAttribute = $arguments[2];
+
+                    if (isset($arguments[3])) {
+                        $this->secondAttribute = $arguments[3];
+                    }
                 }
             }
         }
@@ -73,22 +77,20 @@ class CrudController extends AdminController
                 }
 
                 break;
-            case '?':
+            default:
                 echo "---------------------- Commands ------------------------\n";
                 echo "cache                                 - remove cache\n";
                 echo "domain [domainname]                   - change site domain\n";
                 echo "addhook [hookname]                    - add hook to site\n";
                 echo "linkhook [modulename] [hookname]      - add hook to site\n";
                 break;
-            default:
-                echo "You should type some commands, for example \"php console.php ?\" for full information \n";
         }
     }
 
     /**
      * Delete cache
      *
-     * @param $path string
+     * @param string $path
      *
      * @return bool
      */

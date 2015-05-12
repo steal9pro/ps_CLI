@@ -10,13 +10,13 @@ class Dispatcher extends DispatcherCore
      *
      * @throws PrestaShopException
      */
-    public function dispatch()
+    public function __construct()
     {
         $isCLI = (php_sapi_name() == 'cli');
         if ($isCLI) {
             $this->controller = "Crud";
         }
 
-        parent::dispatch();
+        parent::__construct();
     }
 }

@@ -23,22 +23,8 @@ if (!isset($_POST['controller']) && isset($_POST['tab'])) {
 if (!isset($_REQUEST['controller']) && isset($_REQUEST['tab'])) {
     $_REQUEST['controller'] = strtolower($_REQUEST['tab']);
 }
-if(isset($argv[1])) {
-    $_GET['command'] = $argv[1];
 
-    if (isset($argv[2])) {
-        $_GET['firstAttribute'] = $argv[2];
-
-        if (isset($argv[3])) {
-            $_GET['secondAttribute'] = $argv[3];
-        }
-    }
-}
-
+$_POST['cli_argv'] = $argv;
 
 error_reporting(0);
 Dispatcher::getInstance()->dispatch();
-
-
-
-
